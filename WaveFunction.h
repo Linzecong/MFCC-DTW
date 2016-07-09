@@ -55,6 +55,9 @@ private:
 
 public:
     vector<vector<float> > getMFCCs(string filename);
+    vector<vector<float> > addFirstOrderDifference(vector<vector<float> > mfccs);
+    vector<vector<float> > addOrderDifference(vector<vector<float> > mfccs);
+
     //输入为两个mfcc参数，cep1,cep2,返回最短距离
     float ComputeDTW(vector<vector<float> > cep1,vector<vector<float> > cep2);
     WaveFunction(int frm_len, int mfcc_num);

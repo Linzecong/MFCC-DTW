@@ -52,6 +52,70 @@ vector<vector<float> > WaveFunction::getMFCCs(string filename){
     return SourceMFCCs;
 }
 
+vector<vector<float> > addFirstOrderDifference(vector<vector<float> > mfccs){
+    vector<vector<float> > temp;
+    for(int i=0;i<mfccs.size();i++){
+        vector<float> line=mfccs[i];
+        int size=line.size();
+        for(int t=0;t<size;t++){
+            if(t<2)
+                line.push_back(line[t+1]-line[t]);
+            else{
+                if(t>size-2||t==size-2)
+                    line.push_back(line[t]-line[t-1]);
+                else{
+                    float fenzi=line[t+1]-line[t-1]+2*(line[t+2]-line[t-2]);
+                    float fenmu=sqrtf(10);
+                    line.push_back(fenzi/fenmu);
+
+                }
+            }
+        }
+        temp.push_back(line);
+    }
+    return temp;
+}
+
+vector<vector<float> > addOrderDifference(vector<vector<float> > mfccs){
+    vector<vector<float> > temp;
+    for(int i=0;i<mfccs.size();i++){
+        vector<float> line=mfccs[i];
+        int size=line.size();
+        //一阶差分
+        for(int t=0;t<size;t++){
+            if(t<2)
+                line.push_back(line[t+1]-line[t]);
+            else{
+                if(t>size-2||t==size-2)
+                    line.push_back(line[t]-line[t-1]);
+                else{
+                    float fenzi=line[t+1]-line[t-1]+2*(line[t+2]-line[t-2]);
+                    float fenmu=sqrtf(10);
+                    line.push_back(fenzi/fenmu);
+
+                }
+            }
+        }
+        //二阶差分
+        for(int t=size;t<size*2;t++){
+            if(t<2)
+                line.push_back(line[t+1]-line[t]);
+            else{
+                if(t>size-2||t==size-2)
+                    line.push_back(line[t]-line[t-1]);
+                else{
+                    float fenzi=line[t+1]-line[t-1]+2*(line[t+2]-line[t-2]);
+                    float fenmu=sqrtf(10);
+                    line.push_back(fenzi/fenmu);
+
+                }
+            }
+        }
+        temp.push_back(line);
+    }
+    return temp;
+}
+
 float WaveFunction::ComputeDTW(vector<vector<float> > cep1, vector<vector<float> > cep2)
 {
     vector<float> temp;
@@ -274,13 +338,13 @@ void WaveFunction::MFCC(float *En)
 float WaveFunction::ComputeDTW(float *cep1, float *cep2, int num1, int num2){
     struct record
     {		int x;
-            int y;
+                int y;
     };
     struct point
     {		int x,y;
-            float minvalue;
-                int stepnum;
-                    bool recheck;               //记录该点是否被记录过
+                float minvalue;
+                        int stepnum;
+                                bool recheck;               //记录该点是否被记录过
     };
     record * re;
     record * newre;
