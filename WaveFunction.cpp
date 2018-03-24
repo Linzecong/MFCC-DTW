@@ -52,7 +52,7 @@ vector<vector<float> > WaveFunction::getMFCCs(string filename){
     return SourceMFCCs;
 }
 
-vector<vector<float> > addFirstOrderDifference(vector<vector<float> > mfccs){
+vector<vector<float> > WaveFunction::addFirstOrderDifference(vector<vector<float> > mfccs){
     vector<vector<float> > temp;
     for(int i=0;i<mfccs.size();i++){
         vector<float> line=mfccs[i];
@@ -76,7 +76,7 @@ vector<vector<float> > addFirstOrderDifference(vector<vector<float> > mfccs){
     return temp;
 }
 
-vector<vector<float> > addOrderDifference(vector<vector<float> > mfccs){
+vector<vector<float> > WaveFunction::addOrderDifference(vector<vector<float> > mfccs){
     vector<vector<float> > temp;
     for(int i=0;i<mfccs.size();i++){
         vector<float> line=mfccs[i];
